@@ -54,13 +54,30 @@ cd AgenticMemory
 ```
 
 2. Install dependencies:
+Option 1: Using venv (Python virtual environment)
 ```bash
-# Dependencies will be listed here
+# Create and activate virtual environment
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+.venv\Scripts\activate     # Windows
+
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-3. Run the examples:
+Option 2: Using Conda
+```bash
+# Create and activate conda environment
+conda create -n myenv python=3.9
+conda activate myenv
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+3. Run the experiments in LoCoMo dataset:
 ```python
-# Example code will be added
+python test_advanced.py 
 ```
 
 ## Citation 📚
