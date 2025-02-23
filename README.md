@@ -8,9 +8,12 @@ Large Language Model (LLM) agents have demonstrated remarkable capabilities in h
 
 Our project introduces an innovative **Agentic Memory** system that revolutionizes how LLM agents manage and utilize their memories:
 
-![Memory System Comparison](Figure/intro.png)
-
-*Comparison between traditional memory system (top) and our proposed agentic memory (bottom). Our system enables dynamic memory operations and flexible agent-memory interactions.*
+<div align="center">
+  <img src="Figure/intro-a.pdf" alt="Traditional Memory System" width="600"/>
+  <img src="Figure/intro-b.pdf" alt="Our Proposed Agentic Memory" width="600"/>
+  <br>
+  <em>Comparison between traditional memory system (top) and our proposed agentic memory (bottom). Our system enables dynamic memory operations and flexible agent-memory interactions.</em>
+</div>
 
 ## Key Features ✨
 
@@ -23,7 +26,11 @@ Our project introduces an innovative **Agentic Memory** system that revolutioniz
 
 ## Framework 🏗️
 
-[Framework figure will be added here]
+<div align="center">
+  <img src="Figure/framework.pdf" alt="Agentic Memory Framework" width="800"/>
+  <br>
+  <em>The framework of our Agentic Memory system showing the dynamic interaction between LLM agents and memory components.</em>
+</div>
 
 ## How It Works 🛠️
 
@@ -40,19 +47,29 @@ Empirical experiments conducted on six foundation models demonstrate superior pe
 
 ## Getting Started 🚀
 
-[Installation and usage instructions will be added]
+1. Clone the repository:
+```bash
+git clone https://github.com/WujiangXu/AgenticMemory.git
+cd AgenticMemory
+```
+
+2. Install dependencies:
+```bash
+# Dependencies will be listed here
+```
+
+3. Run the examples:
+```python
+# Example code will be added
+```
 
 ## Citation 📚
 
 If you use this code in your research, please cite our work:
 
-```
+```bibtex
 [Citation information will be added]
 ```
-
-## Repository 🔗
-
-The source code is available at: https://github.com/WujiangXu/AgenticMemory
 
 ## License 📄
 
