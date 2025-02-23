@@ -9,8 +9,8 @@ Large Language Model (LLM) agents have demonstrated remarkable capabilities in h
 Our project introduces an innovative **Agentic Memory** system that revolutionizes how LLM agents manage and utilize their memories:
 
 <div align="center">
-  <img src="Figure/intro-a.pdf" alt="Traditional Memory System" width="600"/>
-  <img src="Figure/intro-b.pdf" alt="Our Proposed Agentic Memory" width="600"/>
+  <img src="Figure/intro-a.jpg" alt="Traditional Memory System" width="600"/>
+  <img src="Figure/intro-b.jpg" alt="Our Proposed Agentic Memory" width="600"/>
   <br>
   <em>Comparison between traditional memory system (top) and our proposed agentic memory (bottom). Our system enables dynamic memory operations and flexible agent-memory interactions.</em>
 </div>
@@ -27,7 +27,7 @@ Our project introduces an innovative **Agentic Memory** system that revolutioniz
 ## Framework 🏗️
 
 <div align="center">
-  <img src="Figure/framework.pdf" alt="Agentic Memory Framework" width="800"/>
+  <img src="Figure/framework.jpg" alt="Agentic Memory Framework" width="800"/>
   <br>
   <em>The framework of our Agentic Memory system showing the dynamic interaction between LLM agents and memory components.</em>
 </div>
