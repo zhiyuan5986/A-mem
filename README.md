@@ -2,7 +2,7 @@
 
 A novel agentic memory system for LLM agents that can dynamically organize memories in an agentic way.
 
-> **Note:** This repository is specifically designed to reproduce the results presented in our paper. If you want to use the A-MEM system in your own projects, please refer to our official implementation at: [https://github.com/agiresearch/A-mem](https://github.com/agiresearch/A-mem)
+> **Note:** This repository is specifically designed to reproduce the results presented in our paper. If you want to use the A-MEM system in building your agents, please refer to our official implementation at: [https://github.com/agiresearch/A-mem](https://github.com/agiresearch/A-mem)
 
 ## Introduction 🌟
 
