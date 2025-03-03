@@ -2,6 +2,8 @@
 
 A novel agentic memory system for LLM agents that can dynamically organize memories in an agentic way.
 
+> **Note:** This repository is specifically designed to reproduce the results presented in our paper. If you want to use the A-MEM system in your own projects, please refer to our official implementation at: [https://github.com/agiresearch/A-mem](https://github.com/agiresearch/A-mem)
+
 ## Introduction 🌟
 
 Large Language Model (LLM) agents have demonstrated remarkable capabilities in handling complex real-world tasks through external tool usage. However, to effectively leverage historical experiences, they require sophisticated memory systems. Traditional memory systems, while providing basic storage and retrieval functionality, often lack advanced memory organization capabilities.
@@ -14,6 +16,8 @@ Our project introduces an innovative **Agentic Memory** system that revolutioniz
   <br>
   <em>Comparison between traditional memory system (top) and our proposed agentic memory (bottom). Our system enables dynamic memory operations and flexible agent-memory interactions.</em>
 </div>
+
+For more details, please refer to our paper: [A-MEM: Agentic Memory for LLM Agents](https://arxiv.org/pdf/2502.12110)
 
 ## Key Features ✨
 
