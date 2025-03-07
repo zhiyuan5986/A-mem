@@ -89,17 +89,16 @@ python test_advanced.py
 If you use this code in your research, please cite our work:
 
 ```bibtex
-@misc{xu2025amemagenticmemoryllm,
-      title={A-MEM: Agentic Memory for LLM Agents}, 
-      author={Wujiang Xu and Zujie Liang and Kai Mei and Hang Gao and Juntao Tan and Yongfeng Zhang},
-      year={2025},
-      eprint={2502.12110},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2502.12110}, 
+@article{xu2025mem,
+  title={A-mem: Agentic memory for llm agents},
+  author={Xu, Wujiang and Liang, Zujie and Mei, Kai and Gao, Hang and Tan, Juntao and Zhang, Yongfeng},
+  journal={arXiv preprint arXiv:2502.12110},
+  year={2025}
 }
 ```
 
 ## License 📄
 
-[License information will be added]
+This project is licensed under the MIT License. See LICENSE for details.
+
+
