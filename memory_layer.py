@@ -1,5 +1,5 @@
 from ast import Str
-from typing import List, Dict, Optional, Literal, Any
+from typing import List, Dict, Optional, Literal, Any, Union
 import json
 from datetime import datetime
 import uuid
@@ -122,7 +122,7 @@ class MemoryNote:
                  retrieval_count: Optional[int] = None,
                  timestamp: Optional[str] = None,
                  last_accessed: Optional[str] = None,
-                 context: Optional[str] = None,
+                 context: Optional[str] = None, 
                  evolution_history: Optional[List] = None,
                  category: Optional[str] = None,
                  tags: Optional[List[str]] = None,
@@ -133,6 +133,7 @@ class MemoryNote:
         # Generate metadata using LLM if not provided and controller is available
         if llm_controller and any(param is None for param in [keywords, context, category, tags]):
             analysis = self.analyze_content(content, llm_controller)
+            print("analysis", analysis)
             keywords = keywords or analysis["keywords"]
             context = context or analysis["context"]
             tags = tags or analysis["tags"]
@@ -146,7 +147,12 @@ class MemoryNote:
         current_time = datetime.now().strftime("%Y%m%d%H%M")
         self.timestamp = timestamp or current_time
         self.last_accessed = last_accessed or current_time
+        
+        # Handle context that can be either string or list
         self.context = context or "General"
+        if isinstance(self.context, list):
+            self.context = " ".join(self.context)  # Convert list to string by joining
+            
         self.evolution_history = evolution_history or []
         self.category = category or "Uncategorized"
         self.tags = tags or []
@@ -424,16 +430,9 @@ class SimpleEmbeddingRetriever:
         
         # Calculate cosine similarities
         similarities = cosine_similarity([query_embedding], self.embeddings)[0]
-        # print("similarities", len(similarities), similarities)
         # Get top k results
         top_k_indices = np.argsort(similarities)[-k:][::-1]
         
-        # results = []
-        # for idx in top_k_indices:
-        #     results.append({
-        #         'text': self.corpus[idx],
-        #         'score': float(similarities[idx])
-        #     })
             
         return top_k_indices
         
@@ -525,8 +524,8 @@ class AgenticMemorySystem:
                                 These actions can be combined.
                                 Return your decision in JSON format with the following structure:
                                 {{
-                                    "should_evolve": true/false,
-                                    "actions": ["strengthen", "merge", "prune"],
+                                    "should_evolve": True or False,
+                                    "actions": ["strengthen", "update_neighbor"],
                                     "suggested_connections": ["neighbor_memory_ids"],
                                     "tags_to_update": ["tag_1",..."tag_n"], 
                                     "new_context_neighborhood": ["new context",...,"new context"],
@@ -580,7 +579,7 @@ class AgenticMemorySystem:
                             "type": "object",
                             "properties": {
                                 "should_evolve": {
-                                    "type": "string",
+                                    "type": "boolean",
                                 },
                                 "actions": {
                                     "type": "array",
@@ -618,7 +617,6 @@ class AgenticMemorySystem:
                                         }
                                     }
                                 }
-                                
                             },
                             "required": ["should_evolve","actions","suggested_connections","tags_to_update","new_context_neighborhood","new_tags_neighborhood"],
                             "additionalProperties": False
@@ -626,12 +624,13 @@ class AgenticMemorySystem:
                         "strict": True
                     }}
         )
-        try:
-            response_json = json.loads(response)
-        except:
-            response_json = response
+        # try:
+        print("response", response, type(response))
+        response_json = json.loads(response)
+        # except:
+        #     response_json = response
         should_evolve = response_json["should_evolve"]
-        if should_evolve == "True":
+        if should_evolve:
             actions = response_json["actions"]
             for action in actions:
                 if action == "strengthen":
@@ -639,7 +638,7 @@ class AgenticMemorySystem:
                     new_tags = response_json["tags_to_update"]
                     note.links.extend(suggest_connections)
                     note.tags = new_tags
-                elif action == "neigh_update":
+                elif action == "update_neighbor":
                     new_context_neighborhood = response_json["new_context_neighborhood"]
                     new_tags_neighborhood = response_json["new_tags_neighborhood"]
                     noteslist = list(self.memories.values())
@@ -706,7 +705,6 @@ def run_tests():
         model_name='all-MiniLM-L6-v2',
         llm_backend='openai',
         llm_model='gpt-4o-mini'
-        # retriever_type="simple_embedding"
     )
     
     print("\nAdding test memories...")
