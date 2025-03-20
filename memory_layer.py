@@ -596,10 +596,7 @@ class AgenticMemorySystem:
                                 "new_context_neighborhood": {
                                     "type": "array",
                                     "items": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        }
+                                        "type": "string"
                                     }
                                 },
                                 "tags_to_update": {
