@@ -248,7 +248,7 @@ def evaluate_dataset(dataset_path: str, model: str, output_path: Optional[str] =
     error_num = 0
     memories_dir = os.path.join(os.path.dirname(__file__), "cached_memories_advanced_{}_{}".format(backend, model))
     os.makedirs(memories_dir, exist_ok=True)
-    allow_categories = [3]
+    allow_categories = [1,2,3,4,5]
     for sample_idx, sample in enumerate(samples):
         agent = advancedMemAgent(model, backend, retrieve_k, temperature_c5)
         # Create memory cache filename based on sample and session indices

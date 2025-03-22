@@ -265,8 +265,15 @@ class HybridRetriever:
             'bm25': self.bm25,
             'corpus': self.corpus,
             'document_ids': self.document_ids,
-            'model_name': self.model.get_config_dict()['model_name']
+            'model_name': 'all-MiniLM-L6-v2'  # Default value for model name
         }
+        
+        # Try to get the actual model name if possible
+        try:
+            state['model_name'] = self.model.get_config_dict()['model_name']
+        except (AttributeError, KeyError):
+            pass
+            
         with open(retriever_cache_file, 'wb') as f:
             pickle.dump(state, f)
             
@@ -518,10 +525,10 @@ class AgenticMemorySystem:
                                 1. Should this memory be evolved? Consider its relationships with other memories.
                                 2. What specific actions should be taken (strengthen, update_neighbor)?
                                    2.1 If choose to strengthen the connection, which memory should it be connected to? Can you give the updated tags of this memory?
-                                   2.2 If choose to update_neighbor, you can update the context and tags of these memories based on the understanding of these memories.
+                                   2.2 If choose to update_neighbor, you can update the context and tags of these memories based on the understanding of these memories. If the context and the tags are not updated, the new context and tags should be the same as the original ones. Generate the new context and tags in the sequential order of the input neighbors.
                                 Tags should be determined by the content of these characteristic of these memories, which can be used to retrieve them later and categorize them.
-                                All the above information should be returned in a list format according to the sequence: [[new_memory],[neighbor_memory_1],...[neighbor_memory_n]]
-                                These actions can be combined.
+                                Note that the length of new_tags_neighborhood must equal the number of input neighbors, and the length of new_context_neighborhood must equal the number of input neighbors.
+                                The number of neighbors is {neighbor_number}.
                                 Return your decision in JSON format with the following structure:
                                 {{
                                     "should_evolve": True or False,
@@ -558,7 +565,13 @@ class AgenticMemorySystem:
         latest state of all memories.
         """
         # Reset the retriever with the same model
-        model_name = self.retriever.model.get_config_dict()['model_name']
+        try:
+            # Try to get model name through get_config_dict if available
+            model_name = self.retriever.model.get_config_dict()['model_name']
+        except (AttributeError, KeyError):
+            # Fallback: use the model name from the class initialization
+            model_name = 'all-MiniLM-L6-v2'
+        
         self.retriever = SimpleEmbeddingRetriever(model_name)
         
         # Re-add all memory documents with their metadata
@@ -571,7 +584,8 @@ class AgenticMemorySystem:
     def process_memory(self, note: MemoryNote) -> bool:
         """Process a memory note and return an evolution label"""
         neighbor_memory, indices = self.find_related_memories(note.content, k=5)
-        prompt_memory = self.evolution_system_prompt.format(context=note.context, content=note.content, keywords=note.keywords, nearest_neighbors_memories=neighbor_memory)
+        prompt_memory = self.evolution_system_prompt.format(context=note.context, content=note.content, keywords=note.keywords, nearest_neighbors_memories=neighbor_memory,neighbor_number=len(indices))
+        print("prompt_memory", prompt_memory)
         response = self.llm_controller.llm.get_completion(
             prompt_memory,response_format={"type": "json_schema", "json_schema": {
                         "name": "response",
@@ -622,8 +636,9 @@ class AgenticMemorySystem:
                     }}
         )
         # try:
-        print("response", response, type(response))
+        # print("response", response, type(response))
         response_json = json.loads(response)
+        print("response_json", response_json, type(response_json))
         # except:
         #     response_json = response
         should_evolve = response_json["should_evolve"]
@@ -640,10 +655,15 @@ class AgenticMemorySystem:
                     new_tags_neighborhood = response_json["new_tags_neighborhood"]
                     noteslist = list(self.memories.values())
                     notes_id = list(self.memories.keys())
-                    for i in range(len(new_tags_neighborhood)):
+                    print("indices", indices)
+                    # if slms output less than the number of neighbors, use the sequential order of new tags and context.
+                    for i in range(min(len(indices), len(new_tags_neighborhood))):
                         # find some memory
                         tag = new_tags_neighborhood[i]
-                        context = new_context_neighborhood[i]
+                        if i < len(new_context_neighborhood):
+                            context = new_context_neighborhood[i]
+                        else:
+                            context = noteslist[indices[i]].context
                         memorytmp_idx = indices[i]
                         notetmp = noteslist[memorytmp_idx]
                         # add tag to memory
@@ -667,7 +687,7 @@ class AgenticMemorySystem:
         # print("indices", indices)
         # print("all_memories", all_memories)
         for i in indices:
-            memory_str += "memory index:" + str(i) + "talk start time:" + all_memories[i].timestamp + "memory content: " + all_memories[i].content + "memory context: " + all_memories[i].context + "memory keywords: " + str(all_memories[i].keywords) + "memory tags: " + str(all_memories[i].tags) + "\n"
+            memory_str += "memory index:" + str(i) + "\t talk start time:" + all_memories[i].timestamp + "\t memory content: " + all_memories[i].content + "\t memory context: " + all_memories[i].context + "\t memory keywords: " + str(all_memories[i].keywords) + "\t memory tags: " + str(all_memories[i].tags) + "\n"
         return memory_str, indices
 
     def find_related_memories_raw(self, query: str, k: int = 5) -> List[MemoryNote]:
