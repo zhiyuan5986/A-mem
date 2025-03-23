@@ -61,9 +61,9 @@ cd AgenticMemory
 Option 1: Using venv (Python virtual environment)
 ```bash
 # Create and activate virtual environment
-python -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-.venv\Scripts\activate     # Windows
+python -m venv a-mem
+source a-mem/bin/activate  # Linux/Mac
+a-mem\Scripts\activate     # Windows
 
 # Install dependencies
 pip install -r requirements.txt
