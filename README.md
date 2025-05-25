@@ -84,7 +84,7 @@ pip install -r requirements.txt
 python test_advanced.py 
 ```
 
-## Citation 📚
+<!-- ## Citation 📚
 
 If you use this code in your research, please cite our work:
 
@@ -95,7 +95,7 @@ If you use this code in your research, please cite our work:
   journal={arXiv preprint arXiv:2502.12110},
   year={2025}
 }
-```
+``` -->
 
 ## License 📄
 
