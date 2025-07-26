@@ -550,7 +550,7 @@ class AgenticMemorySystem:
         # all_docs = [m.content for m in self.memories.values()]
         evo_label, note = self.process_memory(note)
         self.memories[note.id] = note
-        self.retriever.add_documents([note.context + " keywords: " + ", ".join(note.keywords)])
+        self.retriever.add_documents(["content:" + note.content + " context:" + note.context + " keywords: " + ", ".join(note.keywords) + " tags: " + ", ".join(note.tags)])
         if evo_label == True:
             self.evo_cnt += 1
             if self.evo_cnt % self.evo_threshold == 0:
