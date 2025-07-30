@@ -400,7 +400,7 @@ def main():
                       help="OpenAI model to use")
     parser.add_argument("--output", type=str, default=None,
                       help="Path to save evaluation results")
-    parser.add_argument("--ratio", type=float, default=0.1,
+    parser.add_argument("--ratio", type=float, default=1.0,
                       help="Ratio of dataset to evaluate (0.0 to 1.0)")
     parser.add_argument("--backend", type=str, default="openai",
                       help="Backend to use (openai or ollama)")

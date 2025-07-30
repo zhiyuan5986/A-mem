@@ -84,6 +84,8 @@ pip install -r requirements.txt
 python test_advanced.py 
 ```
 
+**Note:** To achieve the optimal performance reported in our paper, please adjust the hyperparameter k value accordingly. 
+
 ## Citation 📚
 
 If you use this code in your research, please cite our work:
