@@ -84,17 +84,26 @@ pip install -r requirements.txt
 python test_advanced.py 
 ```
 
-**Note:** To achieve the optimal performance reported in our paper, please adjust the hyperparameter k value accordingly. 
+**Note:** To achieve the optimal performance reported in our paper, please adjust the hyperparameter k value accordingly.
+
+**Categories Information:** The LoCoMo dataset contains the following categories:
+* Category 1: Multi-hop
+* Category 2: Temporal
+* Category 3: Open-domain
+* Category 4: Single-hop
+* Category 5: Adversarial
+
+For more details about the categories, please refer to [this GitHub issue](https://github.com/snap-research/locomo/issues/6). 
 
 ## Citation 📚
 
 If you use this code in your research, please cite our work:
 
 ```bibtex
-@article{xu2025mem,
+@inproceedings{xu2025amem,
   title={A-mem: Agentic memory for llm agents},
   author={Xu, Wujiang and Liang, Zujie and Mei, Kai and Gao, Hang and Tan, Juntao and Zhang, Yongfeng},
-  journal={arXiv preprint arXiv:2502.12110},
+  booktitle={Advances in Neural Information Processing Systems},
   year={2025}
 }
 ```
