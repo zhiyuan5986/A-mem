@@ -1,3 +1,4 @@
+import torch
 from ast import Str
 from typing import List, Dict, Optional, Literal, Any, Union
 import json
@@ -92,6 +93,7 @@ class OllamaController(BaseLLMController):
                     {"role": "user", "content": prompt}
                 ],
                 response_format=response_format,
+                temperature = temperature
             )
             return response.choices[0].message.content
         except Exception as e:
@@ -637,10 +639,11 @@ class AgenticMemorySystem:
         )
         # try:
         # print("response", response, type(response))
-        response_json = json.loads(response)
-        print("response_json", response_json, type(response_json))
-        # except:
-        #     response_json = response
+        try:
+            response_json = json.loads(response)
+            print("response_json", response_json, type(response_json))
+        except:
+            return False, note
         should_evolve = response_json["should_evolve"]
         if should_evolve:
             actions = response_json["actions"]
@@ -702,8 +705,8 @@ class AgenticMemorySystem:
         # Convert to list of memories
         all_memories = list(self.memories.values())
         memory_str = ""
-        j = 0
         for i in indices:
+            j = 0 # FIXME: wrong position?
             memory_str +=  "talk start time:" + all_memories[i].timestamp + "memory content: " + all_memories[i].content + "memory context: " + all_memories[i].context + "memory keywords: " + str(all_memories[i].keywords) + "memory tags: " + str(all_memories[i].tags) + "\n"
             neighborhood = all_memories[i].links
             for neighbor in neighborhood:
